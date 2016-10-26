@@ -28,9 +28,9 @@ def start():
 
     # localdb receive
     logger.info('localdb init & start localdb pipeline...')
-    #leveldb.init()
-    #local_block.start()
-    #local_vote.start()
+    leveldb.init()
+    local_block.start()
+    local_vote.start()
 
     # start the processes
     logger.info('Starting block')
@@ -55,4 +55,4 @@ def start():
 
     # RabbitMQ receive
     logger.info('localdb begin receive tables change')
-    # receive.start()
+    receive.start()
