@@ -77,7 +77,7 @@ def init_localdb(flag='all'):
         # clear leveldb
         if flag == 'all' or flag == 'leveldb':
             sudo(" echo 'clear the leveldb data only' ")
-            sudo("rm -rf /localdb/{bigchain,votes,header}/*")
+            sudo("rm -rf /localdb/{log,bigchain,votes,header,changefeeds,rethinkdb_changes}/*")
 
 
 
@@ -89,7 +89,7 @@ def install_localdb():
     with settings(warn_only=True):
         user_group = env.user
         sudo(" echo 'leveldb & plyvel install' ")
-        sudo("mkdir -p /localdb/{bigchain,votes,header}")
+        sudo("mkdir -p /localdb/{log,bigchain,votes,header,changefeeds,rethinkdb_changes}")
         sudo("chown -R " + user_group + ':' + user_group + ' /localdb')
         sudo('pip3 install leveldb==0.194')
         sudo('apt-get install libleveldb1 libleveldb-dev libsnappy1 libsnappy-dev')
