@@ -5,8 +5,9 @@ import rethinkdb as r
 from multipipes import Node
 
 from bigchaindb import Bigchain
+import logging
 
-
+logger = logging.getLogger("pipelines")
 class ChangeFeed(Node):
     """This class wraps a RethinkDB changefeed adding a `prefeed`.
 
@@ -62,11 +63,13 @@ class ChangeFeed(Node):
                     #Test
                     bigchain_counts = bigchain_counts + 1
                     print(bigchain_counts)
+                    logger.warn(bigchain_counts)
                     with open('/localdb/rethinkdb_changes/bigchain.txt', 'w+') as f:
                         f.write(str(bigchain_counts) + "\n")
                 elif self.table == 'votes':
                     # Test
                     votes_counts = votes_counts + 1
+                    logger.warn(votes_counts)
                     with open('/localdb/rethinkdb_changes/votes.txt', 'w+') as f:
                         f.write(str(votes_counts) + "\n")
                 self.outqueue.put(change['new_val'])

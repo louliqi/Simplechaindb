@@ -29,7 +29,8 @@ from bigchaindb import crypto
 
 
 logging.basicConfig(level=logging.INFO)
-logger = logging.getLogger(__name__)
+# logger = logging.getLogger(__name__)
+logger = logging.getLogger('main')
 
 
 # We need this because `input` always prints on stdout, while it should print
@@ -155,6 +156,14 @@ def run_drop(args):
 
 
 def run_start(args):
+    # config logging
+    log_config_path = "conf/log_file.conf"
+    print(os.path.abspath('conf/log_file.conf'))
+    print('logging config file exist ' + str(os.path.isfile(log_config_path)))
+    import logging.config
+    if os.path.exists(log_config_path):
+        logging.config.fileConfig(fname=log_config_path)
+
     """Start the processes to run the node"""
     logger.info('BigchainDB Version {}'.format(bigchaindb.__version__))
     bigchaindb.config_utils.autoconfigure(filename=args.config, force=True)
