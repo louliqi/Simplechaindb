@@ -47,13 +47,28 @@ class ChangeFeed(Node):
         for element in self.prefeed:
             self.outqueue.put(element)
 
+        bigchain_counts = 0
+        votes_counts = 0
+
         for change in r.table(self.table).changes().run(self.bigchain.conn):
 
             is_insert = change['old_val'] is None
             is_delete = change['new_val'] is None
             is_update = not is_insert and not is_delete
 
+
             if is_insert and (self.operation & ChangeFeed.INSERT):
+                if self.table == 'bigchain':
+                    #Test
+                    bigchain_counts = bigchain_counts + 1
+                    print(bigchain_counts)
+                    with open('/localdb/rethinkdb_changes/bigchain.txt', 'w+') as f:
+                        f.write(str(bigchain_counts) + "\n")
+                elif self.table == 'votes':
+                    # Test
+                    votes_counts = votes_counts + 1
+                    with open('/localdb/rethinkdb_changes/votes.txt', 'w+') as f:
+                        f.write(str(votes_counts) + "\n")
                 self.outqueue.put(change['new_val'])
             elif is_delete and (self.operation & ChangeFeed.DELETE):
                 self.outqueue.put(change['old_val'])
