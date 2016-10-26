@@ -42,17 +42,30 @@ class LocalChangeFeed(Node):
             logger.info('prefeed' + str(self.prefeed))
             self.outqueue.put(element)
 
+        bigchain_counts = 0
+        votes_counts = 0
+
         for change in r.table(self.table).changes().run(self.bigchain.conn):
 
             is_insert = change['old_val'] is None
             is_delete = change['new_val'] is None
             is_update = not is_insert and not is_delete
 
+
             if is_insert and (self.operation & LocalChangeFeed.INSERT):
                 if self.table == 'bigchain':
+                    #Test
+                    bigchain_counts = bigchain_counts + 1
+                    print(bigchain_counts)
+                    with open('/localdb/changefeeds/bigchain.txt', 'w+') as f:
+                        f.write(str(bigchain_counts) + "\n")
                     block = rapidjson.dumps(change['new_val'])
                     ramq.publish('blocks',block)
                 elif self.table == 'votes':
+                    # Test
+                    votes_counts = votes_counts + 1
+                    with open('/localdb/changefeeds/votes.txt', 'w+') as f:
+                        f.write(str(votes_counts) + "\n")
                     vote = rapidjson.dumps(change['new_val'])
                     ramq.publish('votes', vote)
             elif is_delete and (self.operation & LocalChangeFeed.DELETE):
