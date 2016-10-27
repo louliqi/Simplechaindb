@@ -21,7 +21,7 @@ fi
 ./install_rethinkdb.sh
 ./configure_rethinkdb.sh
 #install localdb
-./install_localdb.sh
+#./install_localdb.sh
 ./install_bigchaindb_from_git_archive.sh
 ./configure_bigchaindb.sh $1
 ./clustercontrol.sh start
