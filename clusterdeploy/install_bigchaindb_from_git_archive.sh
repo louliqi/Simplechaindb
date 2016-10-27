@@ -7,7 +7,7 @@ set -e
 
 cd ..
 rm -f bigchaindb-archive.tar.gz
-git archive master --format=tar --output=bigchaindb-archive.tar
+git archive test --format=tar --output=bigchaindb-archive.tar
 gzip bigchaindb-archive.tar
 mv bigchaindb-archive.tar.gz clusterdeploy
 cd clusterdeploy
