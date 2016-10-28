@@ -16,7 +16,7 @@ from bigchaindb import Bigchain, config
 
 
 logger = logging.getLogger(__name__)
-＃logger = logging.getLogger('block')
+#logger = logging.getLogger('block')
 monitor = Monitor()
 
 class Block:
@@ -109,10 +109,10 @@ class Block:
             self.txs.append(tx)
             # logger.warn('block txs append size is: %d' %(len(self.txs)))
         if len(self.txs) == 1000 or (timeout and self.txs):
-            ＃logger.warn('block create before,  txs size is: %d' % (len(self.txs)))
+            #logger.warn('block create before,  txs size is: %d' % (len(self.txs)))
             block = self.bigchain.create_block(self.txs)
             self.txs = []
-            ＃logger.warn('block create after, txs size is: %d' % (len(self.txs)))
+            #logger.warn('block create after, txs size is: %d' % (len(self.txs)))
             return block
 
     def write(self, block):
